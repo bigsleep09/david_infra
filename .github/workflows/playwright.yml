@@ -43,11 +43,11 @@ jobs:
             # Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
-          python -m allure generate allure-results
+          python -m allure generate allure-results -o allure-report
       # Upload Allure HTML report as artifact
       - name: Upload Allure HTML report as artifact
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: allure-html-report
-          path: allure-results/
+          path: allure-report/
