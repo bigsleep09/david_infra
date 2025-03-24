@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,21 +20,21 @@ jobs:
       - name: Create Virtual Environment
         run: |
           python -m venv venv
-          venv\Scripts\activate
+          source venv/bin/activate
 
       - name: Install dependencies
         run: |
-          venv\Scripts\activate
+          source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Ensure browsers are installed
         run: |
-          venv\Scripts\activate
+          source venv/bin/activate
           python -m playwright install --with-deps
 
       - name: Run your tests
         run: |
-          venv\Scripts\activate
+          source venv/bin/activate
           python -m pytest --tracing=on -rA --quiet --verbose --alluredir=allure-results --video=retain-on-failure --full-page-screenshot
       - name: Load test report history
         uses: actions/checkout@v3
