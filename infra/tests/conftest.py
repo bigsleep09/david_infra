@@ -10,8 +10,6 @@ import pytest
 from common.helpers.utils import LogLevel, log_message
 
 
-from infra.tests.conftest import browser
-
 from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 
@@ -27,7 +25,7 @@ def browser(request: pytest.FixtureRequest):
     headless = request.config.getoption("--headed")
     with sync_playwright() as p:
         browser_name_lower: str = browser_name.lower()
-        browser_instance = getattr(p, browser_name).launch(
+        browser_instance = getattr(p, browser_name_lower).launch(
             headless=not headless,
             args=[(
                 "--start-maximized"
@@ -41,7 +39,6 @@ def browser(request: pytest.FixtureRequest):
             log_level=LogLevel.INFO,
         )
         browser_instance.close()
-
 
 
 @pytest.fixture(scope="session")
