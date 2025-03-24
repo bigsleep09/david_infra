@@ -23,12 +23,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install allure-pytest
+          curl -s https://api.github.com/repos/allure-framework/allure2/releases/latest \
+            | jq -r '.assets[] | select(.name | test("allure-commandline.*zip$")) | .browser_download_url' \
+            | xargs curl -L -o allure-commandline.zip
+          unzip allure-commandline.zip -d allure-commandline
+          mv allure-commandline/bin/allure /usr/local/bin/allure
+
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
 
       - name: Run your tests
         run: |
           python -m pytest --tracing=on -rA --quiet --verbose --alluredir=allure-results --video=retain-on-failure --full-page-screenshot
+      - name: Verify Allure installation
+        run: allure --version
+
       # Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
