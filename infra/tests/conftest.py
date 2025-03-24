@@ -6,7 +6,10 @@ import allure
 
 import pytest
 
-from helpers.utils import LogLevel, log_message
+
+from common.helpers.utils import LogLevel, log_message
+
+
 from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 
@@ -21,8 +24,15 @@ def browser(request: pytest.FixtureRequest):
     )
     headless = request.config.getoption("--headed")
     with sync_playwright() as p:
-        browser_instance = getattr(p, browser_name).launch(
-            headless=not headless, args=["--start-maximized"]
+        browser_args: list = []
+        browser_name_lower: str = browser_name.lower()
+
+        if browser_name_lower == "chromium" or browser_name_lower == "firefox":
+            browser_args.append("--start-maximized")
+
+        browser_instance = getattr(p, browser_name_lower).launch(
+            headless=not headless,
+            args=browser_args,
         )
         yield browser_instance
         log_message(
@@ -35,7 +45,7 @@ def browser(request: pytest.FixtureRequest):
 
 @pytest.fixture(scope="session")
 def context(browser):
-    context: BrowserContext = browser.new_context(record_video_dir="videos")
+    context: BrowserContext = browser.new_context(no_viewport=True, record_video_dir="videos")
     yield context
     context.close()
 
