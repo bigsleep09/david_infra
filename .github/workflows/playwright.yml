@@ -31,7 +31,7 @@ jobs:
         run: |
           python -m pytest --tracing=on -rA --quiet --verbose --alluredir=allure-results --video=retain-on-failure --full-page-screenshot
       - name: Verify Allure installation
-        run: allure --version
+        run: python -m allure --version
 
       # Generate Allure HTML report
       - name: Generate Allure HTML report
