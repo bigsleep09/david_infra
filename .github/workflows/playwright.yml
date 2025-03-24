@@ -36,7 +36,7 @@ jobs:
 
       # Upload Allure HTML report as artifact
       - name: Upload Allure HTML report as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: allure-html-report
