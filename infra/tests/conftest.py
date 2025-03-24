@@ -25,13 +25,15 @@ def browser(request: pytest.FixtureRequest):
     headless = request.config.getoption("--headed")
     with sync_playwright() as p:
         browser_name_lower: str = browser_name.lower()
+        start_maximized = (
+            "--start-maximized"
+            if browser_name_lower == "chromium" and browser_name_lower == "firefox"
+            else ""
+        )
         browser_instance = getattr(p, browser_name_lower).launch(
             headless=not headless,
-            args=[(
-                "--start-maximized"
-                if browser_name_lower == "chromium" and browser_name_lower == "firefox"
-                else ""
-        )],)
+            args=[start_maximized],
+        )
         yield browser_instance
         log_message(
             logger=logger,
@@ -39,6 +41,7 @@ def browser(request: pytest.FixtureRequest):
             log_level=LogLevel.INFO,
         )
         browser_instance.close()
+
 
 
 @pytest.fixture(scope="session")
