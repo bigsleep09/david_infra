@@ -23,12 +23,6 @@ jobs:
       - name: Run your tests
         run: python -m pytest --tracing=retain-on-failure -rA --quiet --verbose --alluredir=allure-results --clean-alluredir --video=retain-on-failure --full-page-screenshot
 
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results
-          path: allure-results/
-
       # Optional: Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
