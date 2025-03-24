@@ -6,7 +6,7 @@ import allure
 
 import pytest
 
-from infra.helpers.utils import LogLevel, log_message
+from helpers.utils import LogLevel, log_message
 from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 
@@ -94,7 +94,6 @@ def pytest_runtest_teardown(item: pytest.TestReport):
             message=f"Error attaching video: {e}",
             log_level=LogLevel.ERROR,
         )
-
 
 
 @pytest.fixture(scope="session", autouse=True)
