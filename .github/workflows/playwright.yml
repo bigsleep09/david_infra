@@ -31,12 +31,12 @@ jobs:
         run: |
           python -m pytest --tracing=on -rA --quiet --verbose --alluredir=allure-results --video=retain-on-failure --full-page-screenshot
       - name: Verify Allure installation
-        run: python -m allure --version
+        run: allure --version
 
       # Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
-          python -m allure generate allure-results --clean -o allure-report  # Generates the HTML report from allure-results
+          allure generate allure-results --clean -o allure-report  # Generates the HTML report from allure-results
       - name: List contents of allure-report directory
         run: ls -la allure-report/ # Verify that the index.html file is created
 
