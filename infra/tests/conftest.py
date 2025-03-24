@@ -27,7 +27,7 @@ def browser(request: pytest.FixtureRequest):
         browser_name_lower: str = browser_name.lower()
         start_maximized = (
             "--start-maximized"
-            if browser_name_lower == "chromium" and browser_name_lower == "firefox"
+            if browser_name_lower == "chromium" or browser_name_lower == "firefox"
             else ""
         )
         browser_instance = getattr(p, browser_name_lower).launch(
