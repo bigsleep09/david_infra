@@ -11,30 +11,36 @@ jobs:
     timeout-minutes: 60
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
       - name: Create Virtual Environment
-        uses: getsentry/action-setup-venv@v2.1.0
-        id: venv
-        with:
-          python-version: 3.12
+        run: |
+          python -m venv venv
+          venv\Scripts\activate
+
       - name: Install dependencies
         run: |
+          venv\Scripts\activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Ensure browsers are installed
-        run: python -m playwright install --with-deps
+        run: |
+          venv\Scripts\activate
+          python -m playwright install --with-deps
 
       - name: Run your tests
         run: |
+          venv\Scripts\activate
           python -m pytest --tracing=on -rA --quiet --verbose --alluredir=allure-results --video=retain-on-failure --full-page-screenshot
 
       # Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
+          venv\Scripts\activate
           allure generate allure-results --clean -o allure-report  # Generates the HTML report from allure-results
       - name: List contents of allure-report directory
         run: ls -la allure-report/ # Verify that the index.html file is created
