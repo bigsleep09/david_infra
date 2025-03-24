@@ -7,10 +7,11 @@ from typing import Callable, TypeVar
 import allure
 
 
-from helpers.utils import LogLevel, log_message, take_screenshot
 
 
 from playwright.sync_api import Page
+
+from common.helpers.utils import LogLevel, log_message, take_screenshot
 
 
 T = TypeVar('T')

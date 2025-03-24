@@ -6,10 +6,12 @@ import allure
 
 import pytest
 
-from infra.helpers.utils import LogLevel, log_message
 
 
 from playwright.sync_api import BrowserContext, Page, sync_playwright
+
+from common.helpers.utils import LogLevel, log_message
+
 
 
 
