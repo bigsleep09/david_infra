@@ -7,11 +7,10 @@ import allure
 import pytest
 
 
-
-from playwright.sync_api import BrowserContext, Page, sync_playwright
-
 from common.helpers.utils import LogLevel, log_message
 
+
+from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 
 
@@ -40,9 +39,10 @@ def browser(request: pytest.FixtureRequest):
 
 @pytest.fixture(scope="session")
 def context(browser):
-    context: BrowserContext = browser.new_context(record_video_dir="videos")
+    context: BrowserContext = browser.new_context(no_viewport=True, record_video_dir="videos")
     yield context
     context.close()
+
 
 
 @pytest.fixture(scope="function")
