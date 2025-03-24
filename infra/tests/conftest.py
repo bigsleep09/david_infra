@@ -10,8 +10,9 @@ import pytest
 from common.helpers.utils import LogLevel, log_message
 
 
-from playwright.sync_api import BrowserContext, Page, sync_playwright
+from infra.tests.conftest import browser
 
+from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 
 @pytest.fixture(scope="session", params=["chromium", "firefox", "webkit"])
@@ -25,9 +26,14 @@ def browser(request: pytest.FixtureRequest):
     )
     headless = request.config.getoption("--headed")
     with sync_playwright() as p:
+        browser_name_lower: str = browser_name.lower()
         browser_instance = getattr(p, browser_name).launch(
-            headless=not headless, args=["--start-maximized"]
-        )
+            headless=not headless,
+            args=[(
+                "--start-maximized"
+                if browser_name_lower == "chromium" and browser_name_lower == "firefox"
+                else ""
+        )],)
         yield browser_instance
         log_message(
             logger=logger,
@@ -37,12 +43,12 @@ def browser(request: pytest.FixtureRequest):
         browser_instance.close()
 
 
+
 @pytest.fixture(scope="session")
 def context(browser):
     context: BrowserContext = browser.new_context(no_viewport=True, record_video_dir="videos")
     yield context
     context.close()
-
 
 
 @pytest.fixture(scope="function")
