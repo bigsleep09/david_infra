@@ -38,7 +38,7 @@ jobs:
       # Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
-          allure generate allure-results --clean -o allure-report
+          python -m allure generate allure-results --clean -o allure-report
 
       # Upload Allure HTML report as artifact
       - name: Upload Allure HTML report as artifact
