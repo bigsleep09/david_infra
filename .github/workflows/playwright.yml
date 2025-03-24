@@ -26,4 +26,4 @@ jobs:
       if: ${{ !cancelled() }}
       with:
         name: playwright-traces
-        path: test-results/
+        path: allure-results/
