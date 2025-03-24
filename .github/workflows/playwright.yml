@@ -40,8 +40,8 @@ jobs:
       # Generate Allure HTML report
       - name: Generate Allure HTML report
         run: |
-          venv\Scripts\activate
           allure generate allure-results --clean -o allure-report  # Generates the HTML report from allure-results
+      
       - name: List contents of allure-report directory
         run: ls -la allure-report/ # Verify that the index.html file is created
 
